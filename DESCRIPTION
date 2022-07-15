@@ -1,0 +1,32 @@
+Package: CoronaNet
+Type: Package
+Title: API Access to CoronaNet Data
+Version: 0.2.0
+Authors@R: 
+    person(given = "Timothy",
+           family = "A. Model",
+           role = c("aut", "cre"),
+           email = "admin@coronanet.org")
+Maintainer: CoronaNet Research Project <admin@coronanet-project.org>
+Description: CoronaNet is a database on government responses to the coronavirus. 
+    To date, this dataset provides the most comprehensive and granular 
+    documentation of such government policies in the world, capturing data for 
+    18 broad policy categories alongside many other dimensions, including the 
+    initiator, target, and timing of a policy. This package offers efficient
+    and user-friendly R access to the CoronaNet data.
+License: MIT
+Depends: 
+    R (>= 2.10)
+Imports: 
+    httr,
+    RPostgres,
+    knitr,
+    jsonlite
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+URL: https://www.coronanet-project.org/, https://github.com/CoronaNetDataScience/CoronaNet
+BugReports: https://github.com/CoronaNetDataScience/CoronaNet/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+VignetteBuilder: knitr
