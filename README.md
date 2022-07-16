@@ -43,8 +43,8 @@ get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12
 ```
 
 There are a lot of records that do not yet have end dates, so these are
-included by default. To exclude them, set the `include_no_end_date` to
-`FALSE`.
+included by default. To exclude them, set the `include_no_end_date`
+argument to `FALSE`.
 
 By default a set of columns is included that can identify each record,
 but only includes the policy target, type and description. To change

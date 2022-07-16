@@ -41,7 +41,7 @@ and `to`).
 get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2027-07-01")
 ```
 
-There are a lot of records that do not yet have end dates, so these are included by default. To exclude them, set the `include_no_end_date` to `FALSE`.
+There are a lot of records that do not yet have end dates, so these are included by default. To exclude them, set the `include_no_end_date` argument to `FALSE`.
 
 By default a set of columns is included that can identify each record, but only includes the policy target, type and description. To change this default, you can pass a character vector to the `default_columns` argument. However, it is better to leave that argument unchanged and add any additional desired columns as a character vector to the `additional_columns` argument. A full list of columns is available in [our codebook](https://www.coronanet-project.org/assets/CoronaNet_Codebook_Panel.pdf).
 

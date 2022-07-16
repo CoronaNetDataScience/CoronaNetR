@@ -14,6 +14,7 @@
 #' @return A dataframe with one record per COVID-19 policy
 #' @export
 #' @import httr
+#' @importFrom utils URLencode
 #' @examples
 #' # Grab all data for Saudi Arabia from first 4 months of pandemic
 #'
