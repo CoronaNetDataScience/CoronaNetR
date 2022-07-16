@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_event.R
 \name{get_event}
 \alias{get_event}
-\title{Get CoronaNet Event Data}
+\title{Access CoronaNet Event Data API}
 \usage{
 get_event(
   countries = "All",
@@ -16,7 +16,7 @@ get_event(
     "compliance", "enforcer", "city", "type", "type_sub_cat", "description"),
   additional_columns = NULL,
   from = "2019-12-31",
-  to = "2027-07-01",
+  to = "2022-01-01",
   include_no_end_date = TRUE
 )
 }
@@ -43,7 +43,17 @@ By default set to TRUE (this is a lot of records).}
 A dataframe with one record per COVID-19 policy
 }
 \description{
-Get CoronaNet Event Data
+Use this function to obtain the latest policy event data from CoronaNet via an http API.
+}
+\details{
+This function offers programmatic access to the CoronaNet public release dataset, comprising
+over 80,000 distinct policy records and 93 fields. The dataset is updated regularly as policy
+coding continues. The entire dataset can be downloaded through this function, although by default
+it selects a subset of columns (see argument details below). To access additional columns, use the
+\code{additional_columns} argument and include a character vector of column names. For a full list of
+possible columns, see the \href{https://www.coronanet-project.org/assets/CoronaNet_Codebook_Panel.pdf}{CoronaNet codebook}.
+
+See code examples for demonstration of filtering syntax.
 }
 \examples{
 # Grab all data for Saudi Arabia from first 4 months of pandemic

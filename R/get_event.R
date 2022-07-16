@@ -1,4 +1,15 @@
-#' Get CoronaNet Event Data
+#' Access CoronaNet Event Data API
+#'
+#' Use this function to obtain the latest policy event data from CoronaNet via an http API.
+#'
+#' This function offers programmatic access to the CoronaNet public release dataset, comprising
+#' over 80,000 distinct policy records and 93 fields. The dataset is updated regularly as policy
+#' coding continues. The entire dataset can be downloaded through this function, although by default
+#' it selects a subset of columns (see argument details below). To access additional columns, use the
+#' `additional_columns` argument and include a character vector of column names. For a full list of
+#' possible columns, see the [CoronaNet codebook](https://www.coronanet-project.org/assets/CoronaNet_Codebook_Panel.pdf).
+#'
+#' See code examples for demonstration of filtering syntax.
 #'
 #' @param countries A character vector of country name(s), e.g., c("Yemen", "Saudi Arabia"). "All" is used as the default.
 #' @param type A character vector of policy types, e.g., c("Lockdown", "Curfew"). "All" is used as the default. See https://www.coronanet-project.org/taxonomy.html? for a list of policy types.
@@ -59,7 +70,7 @@ get_event <- function(countries = "All",
                                   "city","type","type_sub_cat","description"),
                       additional_columns = NULL,
                       from = "2019-12-31",
-                      to = "2027-07-01",
+                      to = "2022-01-01",
                       include_no_end_date=TRUE) {
 
   # Errors/Warnings ----
