@@ -3,7 +3,7 @@
 
 # CoronaNetR Package
 
-CoronaNet is a database on government responses to the COVID-19. To
+CoronaNetR is a database on government responses to the COVID-19. To
 date, this database provides the most comprehensive and granular
 documentation of such government policies in the world, capturing data
 for 18 broad policy categories alongside many other dimensions,
@@ -27,7 +27,7 @@ Event Dataset as R data frames.
 You can install the development version of CoronaNetR as follows:
 
 ``` r
-devtools::install_github("CoronaNetDataScience/CoronaNet")
+devtools::install_github("CoronaNetDataScience/CoronaNetR")
 ```
 
 # Core Functions
