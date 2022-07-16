@@ -8,8 +8,16 @@ get_event(
   countries = "All",
   type = "All",
   type_sub_cat = "All",
+  default_columns = c("record_id", "policy_id", "entry_type", "update_type",
+    "update_level", "update_level_var", "date_announced", "date_start", "date_end",
+    "date_end_spec", "country", "init_country_level", "province", "target_init_same",
+    "target_country", "target_province", "target_city", "target_intl_org",
+    "target_other", "target_who_what", "target_who_gen", "target_direction",
+    "compliance", "enforcer", "city", "type", "type_sub_cat", "description"),
+  additional_columns = NULL,
   from = "2019-12-31",
-  to = "2027-07-01"
+  to = "2027-07-01",
+  include_no_end_date = TRUE
 )
 }
 \arguments{
@@ -19,16 +27,42 @@ get_event(
 
 \item{type_sub_cat}{A character vector of policy types, e.g., c("Self-testing", "Drive-in testing centers"). "All" is used as the default. See https://www.coronanet-project.org/taxonomy.html? for a list of policy subtypes and their related policy types.}
 
+\item{default_columns}{A character vector specifying the minimum set of columns of data to retrieve. Defaults to record/policy ID, dates,
+policy targets, policy type and sub-type, and description}
+
+\item{additional_columns}{By default NULL. Select additional columns to include with the query.}
+
 \item{from}{A character vector for the earliest start date, e.g., "2019-12-31".}
 
 \item{to}{A character vector for the last end date, e.g., "2019-06-01".}
+
+\item{include_no_end_date}{TRUE/FALSE - whether to include policy records that do not yet have an end date.
+By default set to TRUE (this is a lot of records).}
 }
 \value{
-A dataframe
+A dataframe with one record per COVID-19 policy
 }
 \description{
 Get CoronaNet Event Data
 }
 \examples{
-get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2027-07-01")
+saudi_data <- get_event(countries = "Saudi Arabia", type = "All",
+type_sub_cat = "All", from = "2019-12-31", to = "2020-04-30")
+
+# Each row is one policy record
+saudi_data
+
+# Use the additional_columns argument to add additional columns beyond the default set
+# In this case, we'll add the link column to get the URLs for underlying public sources
+saudi_data_links <- get_event(countries = "Saudi Arabia", type = "All",
+                              type_sub_cat = "All", from = "2019-12-31", to = "2020-04-30",additional_columns = "link")
+
+head(saudi_data_links$link)
+
+# look at a specific policy type
+
+saudi_data_subcat <- get_event(countries = "Saudi Arabia", type = "Lockdown",
+                               type_sub_cat = "All", from = "2019-12-31", to = "2020-04-30")
+
+head(saudi_data_subcat$description)
 }

@@ -14,14 +14,13 @@ Description: CoronaNet is a database on government responses to the coronavirus.
     18 broad policy categories alongside many other dimensions, including the 
     initiator, target, and timing of a policy. This package offers efficient
     and user-friendly R access to the CoronaNet data.
-License: MIT
+License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
 Imports: 
-    httr,
-    RPostgres,
-    knitr,
-    jsonlite
+    httr
+Suggests: 
+    knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
