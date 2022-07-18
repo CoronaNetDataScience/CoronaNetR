@@ -39,8 +39,37 @@ policy type (`type`), policy subtype (`type_sub_cat`), and date (`from`
 and `to`).
 
 ``` r
-get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2027-07-01")
+head(get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2020-01-10"))
 ```
+
+    ## Rows: 64 Columns: 28
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr  (23): record_id, policy_id, entry_type, update_type, update_level, upda...
+    ## lgl   (2): target_intl_org, target_other
+    ## date  (3): date_announced, date_start, date_end
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+    ## # A tibble: 6 × 28
+    ##   record_id       policy_id entry_type update_type update_level update_level_var
+    ##   <chr>           <chr>     <chr>      <chr>       <chr>        <chr>           
+    ## 1 R_3n788do2QRzm… 8472080   new_entry  <NA>        <NA>         <NA>            
+    ## 2 R_1Leg47dGNydF… 8856106   new_entry  <NA>        <NA>         <NA>            
+    ## 3 R_1mn2ZAJLH6yM… 5425631Gd new_entry  <NA>        <NA>         <NA>            
+    ## 4 R_2AMF4PcSVHjx… 1884124   new_entry  <NA>        <NA>         <NA>            
+    ## 5 R_2CdDjoSFr0ms… 8936839   new_entry  <NA>        <NA>         <NA>            
+    ## 6 R_2EHtseyXyuvG… 7214487   new_entry  <NA>        <NA>         <NA>            
+    ## # … with 22 more variables: date_announced <date>, date_start <date>,
+    ## #   date_end <date>, date_end_spec <chr>, country <chr>,
+    ## #   init_country_level <chr>, province <chr>, target_init_same <chr>,
+    ## #   target_country <chr>, target_province <chr>, target_city <chr>,
+    ## #   target_intl_org <lgl>, target_other <lgl>, target_who_what <chr>,
+    ## #   target_who_gen <chr>, target_direction <chr>, compliance <chr>,
+    ## #   enforcer <chr>, city <chr>, type <chr>, type_sub_cat <chr>, …
 
 There are a lot of records that do not yet have end dates, so these are
 included by default. To exclude them, set the `include_no_end_date`
@@ -54,6 +83,48 @@ any additional desired columns as a character vector to the
 `additional_columns` argument. A full list of columns is available in
 [our
 codebook](https://www.coronanet-project.org/assets/CoronaNet_Codebook_Panel.pdf).
+
+## Policy Intensity Indexes: `get_policy_scores`
+
+You can download our six different policy intensity indexes, which are
+covered in [this paper](https://osf.io/preprints/socarxiv/rn9xk/), and
+aggregate our data into daily country-level policy intensity scores
+using the `get_policy_scores` function:
+
+``` r
+head(get_policy_scores(from="2020-01-01",
+                       to="2020-01-10"))
+```
+
+    ## Rows: 10930 Columns: 7
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr  (2): country, index
+    ## dbl  (4): med_estimate, high_estimate, low_estimate, SD_estimate
+    ## date (1): date_policy
+
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+    ## # A tibble: 6 × 7
+    ##   country  index date_policy med_estimate high_estimate low_estimate SD_estimate
+    ##   <chr>    <chr> <date>             <dbl>         <dbl>        <dbl>       <dbl>
+    ## 1 Afghani… Busi… 2020-01-01        -1.80         -1.67        -1.93       0.0800
+    ## 2 Afghani… Heal… 2020-01-01        -0.388        -0.359       -0.419      0.0183
+    ## 3 Afghani… Heal… 2020-01-01        -1.05         -0.847       -1.28       0.131 
+    ## 4 Afghani… Masks 2020-01-01        -0.817        -0.530       -1.11       0.181 
+    ## 5 Afghani… Scho… 2020-01-01        -1.50         -1.34        -1.67       0.105 
+    ## 6 Afghani… Soci… 2020-01-01        -1.11         -0.905       -1.29       0.125
+
+These scores are estimated with measurement error, both the standard
+deviation of the uncertainty of the scores and a high/low uncertainty
+interval. This information is useful for checking results for robustness
+to coding and other kinds of errors in the scores. These indexes are
+periodically updated as we add more records to our CoronaNet database.
+The indexes currently run from January 1st, 2020 to April 29th, 2021 for
+over 180 countries.
 
 # Data Filtering Options
 

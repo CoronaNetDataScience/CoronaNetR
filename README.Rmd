@@ -4,6 +4,11 @@ output: github_document
 
 ![](https://www.coronanet-project.org/images/logo_transparent_slim.png)
 
+```{r setup, include=F}
+library(CoronaNetR)
+```
+
+
 # CoronaNetR Package
 
 CoronaNetR is a database on government responses to the COVID-19. To
@@ -37,13 +42,25 @@ Access CoronaNet’s Event Dataset. The function allows you to filter by
 policy type (`type`), policy subtype (`type_sub_cat`), and date (`from`
 and `to`).
 
-``` r
-get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2027-07-01")
+```{r }
+head(get_event(countries = "All", type = "All", type_sub_cat = "All", from = "2019-12-31", to = "2020-01-10"))
 ```
 
 There are a lot of records that do not yet have end dates, so these are included by default. To exclude them, set the `include_no_end_date` argument to `FALSE`.
 
 By default a set of columns is included that can identify each record, but only includes the policy target, type and description. To change this default, you can pass a character vector to the `default_columns` argument. However, it is better to leave that argument unchanged and add any additional desired columns as a character vector to the `additional_columns` argument. A full list of columns is available in [our codebook](https://www.coronanet-project.org/assets/CoronaNet_Codebook_Panel.pdf).
+
+## Policy Intensity Indexes: `get_policy_scores` 
+
+You can download our six different policy intensity indexes, which are covered in [this paper](https://osf.io/preprints/socarxiv/rn9xk/), and aggregate our data into daily country-level policy intensity scores using the `get_policy_scores` function: 
+
+```{r }
+head(get_policy_scores(from="2020-01-01",
+                       to="2020-01-10"))
+```
+
+
+These scores are estimated with measurement error, both the standard deviation of the uncertainty of the scores and a high/low uncertainty interval. This information is useful for checking results for robustness to coding and other kinds of errors in the scores. These indexes are periodically updated as we add more records to our CoronaNet database. The indexes currently run from January 1st, 2020 to April 29th, 2021 for over 180 countries.
 
 # Data Filtering Options
 
