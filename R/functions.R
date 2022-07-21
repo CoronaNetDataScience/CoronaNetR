@@ -27,11 +27,15 @@
 #' @param to A character vector for the last end date, e.g., "2019-06-01".
 #' @param include_no_end_date TRUE/FALSE - whether to include policy records that do not yet have an end date.
 #'        By default set to TRUE (this is a lot of records).
+#' @param time_out Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
+#'        will return an empty data-frame. Only useful for complying with CRAN
+#'        submission requirements. Default is FALSE.
 #'
 #' @return A dataframe with one record per COVID-19 policy
 #' @export
 #' @import httr
 #' @importFrom utils URLencode
+#' @importFrom R.utils withTimeout
 #' @examples
 #' # Grab all data for Saudi Arabia from first 4 months of pandemic
 #'
@@ -77,7 +81,8 @@ get_event <- function(countries = "All",
                       additional_columns = NULL,
                       from = "2019-12-31",
                       to = "2022-01-01",
-                      include_no_end_date=TRUE) {
+                      include_no_end_date=TRUE,
+                      time_out=FALSE) {
 
   # Errors/Warnings ----
 
@@ -168,11 +173,40 @@ get_event <- function(countries = "All",
 
   prod_query <- paste0(c(columns,date_filter,type,type_sub_cat,countries), collapse="&")
 
-  cor_query <- GET(URLencode(paste0("postgrest-1572524110.us-east-2.elb.amazonaws.com/public_release_allvars?",
-                                    prod_query)),
-                   add_headers(Accept="text/csv"))
+  if(time_out) {
 
-  coronanet <- content(cor_query,type="text/csv",encoding="UTF-8")
+    cor_query <- try(withTimeout(GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/public_release_allvars?",
+                                      prod_query)),
+                     add_headers(Accept="text/csv")),
+                     substitute=TRUE,
+                     timeout=9,
+                     onTimeout="silent"),
+                     silent=TRUE)
+
+    if(!('try-error' %in% class(cor_query))) {
+
+
+      coronanet <- content(cor_query,type="text/csv",encoding="UTF-8")
+
+    } else {
+
+      print("API 10-second time-out reached.")
+
+      coronanet <- data.frame()
+
+    }
+
+  } else {
+
+    cor_query <- GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/public_release_allvars?",
+                                      prod_query)),
+                     add_headers(Accept="text/csv"))
+
+    coronanet <- content(cor_query,type="text/csv",encoding="UTF-8")
+
+  }
+
+
 
   # Return all-country coronanet data
   return(coronanet)
@@ -456,25 +490,31 @@ get_event <- function(countries = "All",
 #' @param to The end time period in YYYY-MM-DD format. At present the index goes until 04-29-2021.
 #' @param scaled Whether to use scores that are scaled between 0 and 100. By default FALSE. Only use
 #'        scaled scores for description and visualization, not inference/modeling.
+#' @param time_out Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
+#'        will return an empty data-frame. Only useful for complying with CRAN
+#'        submission requirements. Default is FALSE.
 #' @export
 #' @examples
-#' # Download policy intensity scores of all types for all countries
-#'
-#' policy_scores <- get_policy_scores()
-#'
 #' # Download policy intensity scores for Japan and China
 #'
-#' japan_scores <- get_policy_scores(countries=c("Japan","China"))
+#' japan_scores <- get_policy_scores(countries=c("Japan","China"),
+#'                 from="2020-01-01",
+#'                 to="2020-01-05",
+#'                  time_out=TRUE)
 #'
 #' # Get scaled scores (0 to 100)
 #'
 #' japan_scores_scaled <- get_policy_scores(countries=c("Japan","China"),
-#'                         scaled=TRUE)
+#'                         from="2020-01-01",
+#'                         to="2020-01-05",
+#'                         scaled=TRUE,
+#'                         time_out=TRUE)
 get_policy_scores <- function(countries = "All",
                               type = "All",
                               from = "2019-12-31",
                               to = "2021-07-01",
-                              scaled=FALSE) {
+                              scaled=FALSE,
+                              time_out=FALSE) {
 
 
   if(scaled) {
@@ -532,11 +572,37 @@ get_policy_scores <- function(countries = "All",
 
   prod_query <- paste0(c(date_filter,type,countries), collapse="&")
 
-  score_query <- GET(URLencode(paste0("postgrest-1572524110.us-east-2.elb.amazonaws.com/", table,"?",
-                                    prod_query)),
-                   add_headers(Accept="text/csv"))
+  if(time_out) {
 
-  scores <- content(score_query,type="text/csv",encoding="UTF-8")
+    score_query <- try(withTimeout(GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/", table,"?",
+                                                  prod_query)),
+                                 add_headers(Accept="text/csv")),
+                             substitute=TRUE,
+                             timeout=9,
+                             onTimeout="silent"),
+                       silent=TRUE)
+
+    if(!('try-error' %in% class(score_query))) {
+
+      scores <- content(score_query,type="text/csv",encoding="UTF-8")
+
+    } else {
+
+      print("API 10-second time-out reached.")
+
+      scores <- data.frame()
+
+    }
+
+  } else {
+
+    score_query <- GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/", table,"?",
+                                        prod_query)),
+                       add_headers(Accept="text/csv"))
+
+    scores <- content(score_query,type="text/csv",encoding="UTF-8")
+
+  }
 
   # Return all-country coronanet data
   return(scores)

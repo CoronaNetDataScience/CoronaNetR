@@ -9,7 +9,8 @@ get_policy_scores(
   type = "All",
   from = "2019-12-31",
   to = "2021-07-01",
-  scaled = FALSE
+  scaled = FALSE,
+  time_out = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,10 @@ get_policy_scores(
 
 \item{scaled}{Whether to use scores that are scaled between 0 and 100. By default FALSE. Only use
 scaled scores for description and visualization, not inference/modeling.}
+
+\item{time_out}{Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
+will return an empty data-frame. Only useful for complying with CRAN
+submission requirements. Default is FALSE.}
 }
 \value{
 A data frame with one row per policy intensity score per country
@@ -66,16 +71,18 @@ the SD of the measurement error (so-called errors-in-variables models) or by usi
 \code{med_estimate} column.
 }
 \examples{
-# Download policy intensity scores of all types for all countries
-
-policy_scores <- get_policy_scores()
-
 # Download policy intensity scores for Japan and China
 
-japan_scores <- get_policy_scores(countries=c("Japan","China"))
+japan_scores <- get_policy_scores(countries=c("Japan","China"),
+                from="2020-01-01",
+                to="2020-01-05",
+                 time_out=TRUE)
 
 # Get scaled scores (0 to 100)
 
 japan_scores_scaled <- get_policy_scores(countries=c("Japan","China"),
-                        scaled=TRUE)
+                        from="2020-01-01",
+                        to="2020-01-05",
+                        scaled=TRUE,
+                        time_out=TRUE)
 }

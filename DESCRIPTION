@@ -1,6 +1,6 @@
 Package: CoronaNetR
 Type: Package
-Title: API Access to CoronaNet Data
+Title: API Access to 'CoronaNet' Data
 Version: 0.3.0
 Authors@R: 
     c(person(given = "Timothy",
@@ -13,18 +13,19 @@ Authors@R:
            email="rmk7@nyu.edu",
   comment = c(ORCID = "0000-0001-6655-4119")))
 Maintainer: Robert Kubinec <rmk7@nyu.edu>
-Description: CoronaNetR is a database on government responses to the COVID-19 pandemic. 
-    To date, this dataset provides the most comprehensive and granular 
+Description: Offers access to a database on government responses to the COVID-19 pandemic. 
+    To date, the 'CoronaNet' dataset provides the most comprehensive and granular 
     documentation of such government policies in the world, capturing data for 
     20 broad policy categories alongside many other dimensions, including the 
     initiator, target, and timing of a policy. This package is a programmatic 
-    front-end to up-to-date CoronaNet data and the CoronaNet policy intensity index scores. 
-    For more information, see Cheng et al. (2020) <doi:10.1038/s41562-020-0909-7>.
+    front-end to up-to-date 'CoronaNet' policy records and the 'CoronaNet' policy intensity index scores. 
+    For more information, see 'Cheng et al.' (2020) <doi:10.1038/s41562-020-0909-7>.
 License: MIT + file LICENSE
 Depends: 
     R (>= 2.10)
 Imports: 
-    httr
+    httr,
+    R.utils
 Encoding: UTF-8
 Language: en-US
 LazyData: true

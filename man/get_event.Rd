@@ -17,7 +17,8 @@ get_event(
   additional_columns = NULL,
   from = "2019-12-31",
   to = "2022-01-01",
-  include_no_end_date = TRUE
+  include_no_end_date = TRUE,
+  time_out = FALSE
 )
 }
 \arguments{
@@ -38,6 +39,10 @@ policy targets, policy type and sub-type, and description}
 
 \item{include_no_end_date}{TRUE/FALSE - whether to include policy records that do not yet have an end date.
 By default set to TRUE (this is a lot of records).}
+
+\item{time_out}{Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
+will return an empty data-frame. Only useful for complying with CRAN
+submission requirements. Default is FALSE.}
 }
 \value{
 A dataframe with one record per COVID-19 policy
