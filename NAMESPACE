@@ -3,4 +3,5 @@
 export(get_event)
 export(get_policy_scores)
 import(httr)
+importFrom(R.utils,withTimeout)
 importFrom(utils,URLencode)
