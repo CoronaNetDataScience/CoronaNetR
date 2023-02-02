@@ -175,7 +175,7 @@ get_event <- function(countries = "All",
 
   if(time_out) {
 
-    cor_query <- try(withTimeout(GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/public_release_allvars?",
+    cor_query <- try(withTimeout(GET(URLencode(paste0(postgres_server,"/public_release?",
                                       prod_query)),
                      add_headers(Accept="text/csv")),
                      substitute=TRUE,
@@ -198,7 +198,7 @@ get_event <- function(countries = "All",
 
   } else {
 
-    cor_query <- GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/public_release_allvars?",
+    cor_query <- GET(URLencode(paste0(postgres_server,"/public_release?",
                                       prod_query)),
                      add_headers(Accept="text/csv"))
 
@@ -465,9 +465,9 @@ get_event <- function(countries = "All",
 #' until April 29, 2021. The indices are periodically updated with new data as the CoronaNet project continues
 #' coding policies and integrating external datasets.
 #'
-#' The default scores are Normally-distributed with a mean of 0. These scores should be used for inference and
-#' modeling, such as with regression. Alternatively, you can set the `scaled` argument to TRUE to access
-#' scores that have been scaled to be strictly within 0 and 100. These are useful for descriptive visualization.
+#' The scores are Normally-distributed with a mean of 0. It is possible to
+#' re-scale the scores but we recommend using the default scale to preserve
+#' relationships between units and time points.
 #'
 #' You can read more about the index construction and evaluation
 #' at [this preprint](https://osf.io/preprints/socarxiv/rn9xk/).
@@ -488,8 +488,6 @@ get_event <- function(countries = "All",
 #' @param type Specify a specific index to query. By default all types.
 #' @param from The beginning time period in YYYY-MM-DD format.
 #' @param to The end time period in YYYY-MM-DD format. At present the index goes until 04-29-2021.
-#' @param scaled Whether to use scores that are scaled between 0 and 100. By default FALSE. Only use
-#'        scaled scores for description and visualization, not inference/modeling.
 #' @param time_out Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
 #'        will return an empty data-frame. Only useful for complying with CRAN
 #'        submission requirements. Default is FALSE.
@@ -502,13 +500,6 @@ get_event <- function(countries = "All",
 #'                 to="2020-01-05",
 #'                  time_out=TRUE)
 #'
-#' # Get scaled scores (0 to 100)
-#'
-#' japan_scores_scaled <- get_policy_scores(countries=c("Japan","China"),
-#'                         from="2020-01-01",
-#'                         to="2020-01-05",
-#'                         scaled=TRUE,
-#'                         time_out=TRUE)
 get_policy_scores <- function(countries = "All",
                               type = "All",
                               from = "2019-12-31",
@@ -517,15 +508,15 @@ get_policy_scores <- function(countries = "All",
                               time_out=FALSE) {
 
 
-  if(scaled) {
-
-    table <- "policy_intensity_scaled"
-
-  } else {
+  # if(scaled) {
+  #
+  #   table <- "policy_intensity_scaled"
+  #
+  # } else {
 
     table <- 'policy_intensity'
 
-  }
+  # }
 
 
   if(type[1]=="All") {
@@ -574,7 +565,7 @@ get_policy_scores <- function(countries = "All",
 
   if(time_out) {
 
-    score_query <- try(withTimeout(GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/", table,"?",
+    score_query <- try(withTimeout(GET(URLencode(paste0(postgres_server,"/", table,"?",
                                                   prod_query)),
                                  add_headers(Accept="text/csv")),
                              substitute=TRUE,
@@ -596,7 +587,7 @@ get_policy_scores <- function(countries = "All",
 
   } else {
 
-    score_query <- GET(URLencode(paste0("http://postgrest-1572524110.us-east-2.elb.amazonaws.com/", table,"?",
+    score_query <- GET(URLencode(paste0(postgres_server,"/", table,"?",
                                         prod_query)),
                        add_headers(Accept="text/csv"))
 

@@ -22,9 +22,6 @@ get_policy_scores(
 
 \item{to}{The end time period in YYYY-MM-DD format. At present the index goes until 04-29-2021.}
 
-\item{scaled}{Whether to use scores that are scaled between 0 and 100. By default FALSE. Only use
-scaled scores for description and visualization, not inference/modeling.}
-
 \item{time_out}{Whether to set a 5-second time-out on the API call. Beyond 5 seconds, the function
 will return an empty data-frame. Only useful for complying with CRAN
 submission requirements. Default is FALSE.}
@@ -51,9 +48,9 @@ By default, all six indices for all countries are downloaded, running from the i
 until April 29, 2021. The indices are periodically updated with new data as the CoronaNet project continues
 coding policies and integrating external datasets.
 
-The default scores are Normally-distributed with a mean of 0. These scores should be used for inference and
-modeling, such as with regression. Alternatively, you can set the \code{scaled} argument to TRUE to access
-scores that have been scaled to be strictly within 0 and 100. These are useful for descriptive visualization.
+The scores are Normally-distributed with a mean of 0. It is possible to
+re-scale the scores but we recommend using the default scale to preserve
+relationships between units and time points.
 
 You can read more about the index construction and evaluation
 at \href{https://osf.io/preprints/socarxiv/rn9xk/}{this preprint}.
@@ -78,11 +75,4 @@ japan_scores <- get_policy_scores(countries=c("Japan","China"),
                 to="2020-01-05",
                  time_out=TRUE)
 
-# Get scaled scores (0 to 100)
-
-japan_scores_scaled <- get_policy_scores(countries=c("Japan","China"),
-                        from="2020-01-01",
-                        to="2020-01-05",
-                        scaled=TRUE,
-                        time_out=TRUE)
 }
