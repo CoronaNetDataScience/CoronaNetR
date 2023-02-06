@@ -504,7 +504,6 @@ get_policy_scores <- function(countries = "All",
                               type = "All",
                               from = "2019-12-31",
                               to = "2021-07-01",
-                              scaled=FALSE,
                               time_out=FALSE) {
 
 

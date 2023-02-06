@@ -22,10 +22,14 @@ Description: Offers access to a database on government responses to the COVID-19
     For more information, see 'Cheng et al.' (2020) <doi:10.1038/s41562-020-0909-7>.
 License: MIT + file LICENSE
 Depends: 
-    R (>= 2.10)
-Imports: 
+    R (>= 2.10),
     httr,
     R.utils
+Imports:
+    readr
+Suggests:
+    rmarkdown,
+    knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
@@ -33,3 +37,4 @@ URL: https://github.com/CoronaNetDataScience/CoronaNetR
 BugReports: https://github.com/CoronaNetDataScience/CoronaNetR/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+VignetteBuilder: knitr
