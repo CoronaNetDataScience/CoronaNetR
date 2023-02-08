@@ -52,7 +52,7 @@ re-scale the scores but we recommend using the default scale to preserve
 relationships between units and time points.
 
 You can read more about the index construction and evaluation
-at \href{https://osf.io/preprints/socarxiv/rn9xk/}{this preprint}.
+in \href{https://osf.io/preprints/socarxiv/rn9xk/}{our working paper}.
 
 Citation:
 

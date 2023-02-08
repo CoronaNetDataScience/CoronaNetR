@@ -190,7 +190,7 @@ get_event <- function(countries = "All",
 
     } else {
 
-      print("API 10-second time-out reached.")
+      message("API 10-second time-out reached.")
 
       coronanet <- data.frame()
 
@@ -211,239 +211,6 @@ get_event <- function(countries = "All",
   # Return all-country coronanet data
   return(coronanet)
 
-  # All Countries ----
-
-  # If all countries...
-  # if(any(countries %in% "All")) {
-  #
-  #   # ... and all policy types
-  #   if(any(type %in% "All")) {
-  #
-  #     if(any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #
-  #       if(include_no_end_date) {
-  #
-  #         allcountry_call <- paste0("?or=(and(date_start.gte.",
-  #                                   from,
-  #                                   ",date_end.lte.",
-  #                                   to,
-  #                                   "),date_end.is.null)"
-  #                                   )
-  #
-  #       } else {
-  #
-  #
-  #         allcountry_call <- ""
-  #
-  #       }
-  #
-  #
-  #       # Fetch all-country data
-  #
-  #
-  #     }
-  #
-  #     if(!any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       allcountry_call <- paste0("SELECT * FROM public_release WHERE date_start >= '",
-  #                                 # Insert minimum 'from' date
-  #                                 from,
-  #                                 # Insert maximum 'to' date
-  #                                 "' AND (date_end <= '",
-  #                                 to,
-  #                                 "' OR date_end IS NULL)",
-  #                                 # Insert policy subtype
-  #                                 "' AND type_sub_cat IN ",
-  #                                 paste0("(", paste0(sprintf("'%s'", type_sub_cat), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch all-country data
-  #       coronanet <- DBI::dbGetQuery(public_con, allcountry_call)
-  #
-  #       # Return all-country coronanet data
-  #       return(coronanet)
-  #
-  #     }
-  #
-  #   }
-  #
-  #   # ... but not all policy types
-  #   if(!any(type %in% "All")){
-  #
-  #     if(any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       allcountry_call <- paste0("SELECT * FROM public_release WHERE date_start >= '",
-  #                                 # Insert minimum 'from' date
-  #                                 from,
-  #                                 # Insert maximum 'to' date
-  #                                 "' AND (date_end <= '",
-  #                                 to,
-  #                                 "' OR date_end IS NULL)",
-  #                                 # Insert policy type(s)
-  #                                 " AND type IN ",
-  #                                 paste0("(", paste0(sprintf("'%s'", type), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch all-country data
-  #       coronanet <- DBI::dbGetQuery(public_con, allcountry_call)
-  #
-  #       # Return all-country coronanet data
-  #       return(coronanet)
-  #
-  #     }
-  #
-  #     if(!any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       allcountry_call <- paste0("SELECT * FROM public_release WHERE date_start >= '",
-  #                                 # Insert minimum 'from' date
-  #                                 from,
-  #                                 # Insert maximum 'to' date
-  #                                 "' AND (date_end <= '",
-  #                                 to,
-  #                                 "' OR date_end IS NULL)",
-  #                                 # Insert policy type(s)
-  #                                 " AND type IN ",
-  #                                 paste0("(", paste0(sprintf("'%s'", type), collapse = ", "), ")"),
-  #                                 # Insert policy subtype
-  #                                 "' AND type_sub_cat IN ",
-  #                                 paste0("(", paste0(sprintf("'%s'", type_sub_cat), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch all-country data
-  #       coronanet <- DBI::dbGetQuery(public_con, allcountry_call)
-  #
-  #       # Return all-country coronanet data
-  #       return(coronanet)
-  #
-  #     }
-  #
-  #   }
-  #
-  # }
-  #
-  # # Subsetted Countries ----
-  #
-  # # If not all countries...
-  # if(!any(countries %in% "All")) {
-  #
-  #   # ... but all policy types
-  #   if(any(type %in% "All")) {
-  #
-  #     if(any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       country_call <- paste0("SELECT * FROM public_release WHERE country IN ",
-  #                              # Insert country/multiple countries
-  #                              paste0("(", paste0(sprintf("'%s'", countries), collapse = ", "), ")"),
-  #                              " AND date_start >= '",
-  #                              # Insert minimum 'from' date
-  #                              from,
-  #                              # Insert maximum 'to' date
-  #                              "' AND (date_end <= '",
-  #                              to,
-  #                              "' OR date_end IS NULL)"
-  #       )
-  #
-  #       # Fetch single-country data
-  #       coronanet_country <- DBI::dbGetQuery(public_con, country_call)
-  #
-  #       # Return country data
-  #       return(coronanet_country)
-  #
-  #     }
-  #
-  #     if(!any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       country_call <- paste0("SELECT * FROM public_release WHERE country IN ",
-  #                              # Insert country/multiple countries
-  #                              paste0("(", paste0(sprintf("'%s'", countries), collapse = ", "), ")"),
-  #                              " AND date_start >= '",
-  #                              # Insert minimum 'from' date
-  #                              from,
-  #                              # Insert maximum 'to' date
-  #                              "' AND (date_end <= '",
-  #                              to,
-  #                              "' OR date_end IS NULL)",
-  #                              # Insert policy subtype
-  #                              "' AND type_sub_cat IN ",
-  #                              paste0("(", paste0(sprintf("'%s'", type_sub_cat), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch single-country data
-  #       coronanet_country <- DBI::dbGetQuery(public_con, country_call)
-  #
-  #       # Return country data
-  #       return(coronanet_country)
-  #
-  #   }
-  #
-  #   # ... and not all policy types
-  #   if(!any(type %in% "All")) {
-  #
-  #     if(any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       country_call <- paste0("SELECT * FROM public_release WHERE country IN ",
-  #                              # Insert country or multiple countries
-  #                              paste0("(", paste0(sprintf("'%s'", countries), collapse = ", "), ")"),
-  #                              " AND date_start >= '",
-  #                              # Insert minimum 'from' date
-  #                              from,
-  #                              # Insert maximum 'to' date
-  #                              "' AND (date_end <= '",
-  #                              to,
-  #                              "' OR date_end IS NULL)",
-  #                              # Insert policy type(s)
-  #                              " AND type IN ",
-  #                              paste0("(", paste0(sprintf("'%s'", type), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch single-country data
-  #       coronanet_country <- DBI::dbGetQuery(public_con, country_call)
-  #
-  #       # Return country data
-  #       return(coronanet_country)
-  #
-  #     }
-  #
-  #
-  #     if(!any(type_sub_cat %in% "All")) {
-  #
-  #       # Create SQL statement with filtered public_release table
-  #       country_call <- paste0("SELECT * FROM public_release WHERE country IN ",
-  #                              # Insert country or multiple countries
-  #                              paste0("(", paste0(sprintf("'%s'", countries), collapse = ", "), ")"),
-  #                              " AND date_start >= '",
-  #                              # Insert minimum 'from' date
-  #                              from,
-  #                              # Insert maximum 'to' date
-  #                              "' AND (date_end <= '",
-  #                              to,
-  #                              "' OR date_end IS NULL)",
-  #                              # Insert policy type(s)
-  #                              " AND type IN ",
-  #                              paste0("(", paste0(sprintf("'%s'", type), collapse = ", "), ")"),
-  #                              # Insert policy subtype
-  #                              "' AND type_sub_cat IN ",
-  #                              paste0("(", paste0(sprintf("'%s'", type_sub_cat), collapse = ", "), ")")
-  #       )
-  #
-  #       # Fetch single-country data
-  #       coronanet_country <- DBI::dbGetQuery(public_con, country_call)
-  #
-  #       # Return country data
-  #       return(coronanet_country)
-  #
-  #     }
-  #   }
-  #   }
-  # }
 }
 
 
@@ -470,7 +237,7 @@ get_event <- function(countries = "All",
 #' relationships between units and time points.
 #'
 #' You can read more about the index construction and evaluation
-#' at [this preprint](https://osf.io/preprints/socarxiv/rn9xk/).
+#' in [our working paper](https://osf.io/preprints/socarxiv/rn9xk/).
 #'
 #' Citation:
 #'
@@ -578,7 +345,7 @@ get_policy_scores <- function(countries = "All",
 
     } else {
 
-      print("API 10-second time-out reached.")
+      message("API 10-second time-out reached.")
 
       scores <- data.frame()
 
